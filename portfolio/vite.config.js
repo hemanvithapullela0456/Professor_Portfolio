@@ -8,19 +8,4 @@ export default defineConfig({
     tailwindcss(),
     react()
   ],
-  css: {
-    preprocessorOptions: {
-      css: {
-        additionalData: `
-          :root {
-            --primary: #005acd;
-            --secondary: #0093cb;
-            --accent: #6dd7fd;
-            --light: #bef0ff;
-            --background: #f5ffff;
-          }
-        `
-      }
-    }
-  }
 })
