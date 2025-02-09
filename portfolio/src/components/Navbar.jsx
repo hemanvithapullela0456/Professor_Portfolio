@@ -54,8 +54,8 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-6 py-5 flex justify-between items-center">
         {/* Left Logo */}
-        <Link to="/" className="text-2xl font-bold">
-          Professor XYZ, PHD
+        <Link to="/" className="text-[25px] font-bold">
+        Sergio Marquina, Phd
         </Link>
 
         {/* Center Links */}

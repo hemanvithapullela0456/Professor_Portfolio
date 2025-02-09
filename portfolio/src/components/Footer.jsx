@@ -15,20 +15,22 @@ const Footer = () => {
   return (
     <footer className="bg-[#0093cb] text-[#f5ffff] py-12 px-6">
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Contact Section */}
         <div className="space-y-4">
           <h2 className="text-xl font-bold">Get in Touch</h2>
           <p className="text-lg">
-            <a href="mailto:research@professor.edu" className="hover:underline">
+            <a href="mailto:research@professor.edu" className="hover:text-[#b3e6f9] underline transition-all duration-200">
               research@professor.edu
             </a>
           </p>
           <p className="text-lg">
-            <a href="mailto:hello@professor.edu" className="hover:underline">
+            <a href="mailto:hello@professor.edu" className="hover:text-[#b3e6f9] underline transition-all duration-200">
               hello@professor.edu
             </a>
           </p>
         </div>
 
+        {/* Social Links */}
         <div className="space-y-4">
           <h2 className="text-xl font-bold">Connect</h2>
           <div className="flex space-x-6 text-2xl">
@@ -65,6 +67,7 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Quick Links */}
         <div className="space-y-4">
           <h2 className="text-xl font-bold">Quick Links</h2>
           <ul className="space-y-2">
@@ -72,7 +75,7 @@ const Footer = () => {
               <li key={index}>
                 <Link
                   to={link.path}
-                  className="text-lg hover:underline transition-all duration-200"
+                  className="text-lg hover:text-[#b3e6f9] underline transition-all duration-200"
                 >
                   {link.name}
                 </Link>
@@ -81,6 +84,7 @@ const Footer = () => {
           </ul>
         </div>
 
+        {/* Office Address */}
         <div className="space-y-4">
           <h2 className="text-xl font-bold">Office Address</h2>
           <p className="text-lg">Room 123, Computer Science Building</p>
@@ -94,11 +98,11 @@ const Footer = () => {
           &copy; {new Date().getFullYear()} Professor Portfolio. All Rights Reserved.
         </p>
         <p className="text-lg mt-2">
-          <a href="/privacy" className="hover:underline">
+          <a href="/privacy" className="hover:text-[#b3e6f9] underline">
             Data Privacy
           </a>{" "}
           |{" "}
-          <a href="/imprint" className="hover:underline">
+          <a href="/imprint" className="hover:text-[#b3e6f9] underline">
             Imprint
           </a>
         </p>

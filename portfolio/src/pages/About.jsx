@@ -36,7 +36,7 @@ const About = () => {
                 {item.Title}
               </motion.h1>
               <motion.p
-                className="text-base lg:text-xl text-[#b3e6f9]"
+                className="text-lg lg:text-2xl text-[#b3e6f9] leading-relaxed"
                 initial="hidden"
                 animate="visible"
                 variants={textAnimation}
@@ -48,11 +48,11 @@ const About = () => {
 
             {/* Video and Text Section */}
             <div className="px-6 lg:px-20 py-8 lg:py-16">
-              <div className="flex flex-col lg:flex-row gap-8">
+              <div className="flex flex-col lg:flex-row gap-12">
                 {/* Description */}
                 <div className="flex-1">
                   {item.Description.map((desc, index) => (
-                    <p key={index} className="text-base text-gray-800 mt-2">
+                    <p key={index} className="text-lg text-gray-800 leading-relaxed mb-4">
                       {desc.children[0]?.text}
                     </p>
                   ))}
@@ -61,7 +61,7 @@ const About = () => {
                 {/* Video */}
                 {item.Video?.url ? (
                   <motion.div
-                    className="w-full lg:w-1/2"
+                    className="w-[400px] h-[250px] flex justify-center"
                     initial="hidden"
                     animate="visible"
                     variants={textAnimation}
@@ -69,7 +69,7 @@ const About = () => {
                   >
                     <video
                       controls
-                      className="w-full h-auto rounded-lg shadow-lg"
+                      className="w-[400px] h-[250px] rounded-lg shadow-lg"
                     >
                       <source src={item.Video.url} type="video/mp4" />
                       Your browser does not support the video tag.
@@ -83,7 +83,7 @@ const About = () => {
           </div>
         ))
       ) : (
-        <p>Loading...</p>
+        <p className="text-center text-lg py-10">Loading content, please wait...</p>
       )}
     </div>
   );
