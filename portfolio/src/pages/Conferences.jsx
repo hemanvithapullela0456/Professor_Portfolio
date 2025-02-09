@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion"; // Import motion for animations
-import { conferences } from "../data/conferenceData"; // Import the conference data
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion"; 
+import axios from "axios"; 
 
 // Define animation variants
 const textAnimation = {
@@ -10,7 +10,33 @@ const textAnimation = {
 
 const Conferences = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredConferences, setFilteredConferences] = useState(conferences);
+  const [conferences, setConferences] = useState([]);
+  const [filteredConferences, setFilteredConferences] = useState([]);
+
+  // Fetch data from Strapi
+  useEffect(() => {
+    const fetchConferences = async () => {
+      try {
+        const response = await axios.get(
+          "https://legendary-garden-b29e23ea65.strapiapp.com/api/conferences"
+        );
+        // Map the data to extract the correct fields
+        const data = response.data.data.map((item) => ({
+          id: item.id,
+          title: item.title,
+          date: item.date,
+          location: item.location,
+          description: item.description,
+          link: item.link || "N/A",
+        }));
+        setConferences(data);
+        setFilteredConferences(data);
+      } catch (error) {
+        console.error("Error fetching conferences:", error);
+      }
+    };
+    fetchConferences();
+  }, []);
 
   // Handle search input change
   const handleSearch = (e) => {
@@ -119,7 +145,7 @@ const Conferences = () => {
                         rel="noopener noreferrer"
                         className="text-[#0093cb] hover:text-[#0077a8] underline transition-colors duration-200"
                       >
-                        Visit
+                        {conf.link === "N/A" ? "Not Available" : "Visit"}
                       </a>
                     </td>
                   </tr>
@@ -145,7 +171,7 @@ const Conferences = () => {
                   rel="noopener noreferrer"
                   className="text-[#0093cb] hover:text-[#0077a8] underline mt-2 inline-block"
                 >
-                  Visit
+                  {conf.link === "N/A" ? "Not Available" : "Visit"}
                 </a>
               </div>
             ))}

@@ -1,31 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import projectsData from "../data/projects";
 
-// Define animation variants
 const textAnimation = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
-const sectionAnimation = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.5 } },
-};
-
 const ProjectsPage = () => {
+  const [projects, setProjects] = useState([]);
   const [activeTab, setActiveTab] = useState("All Projects");
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("All");
   const [expandedProject, setExpandedProject] = useState(null);
 
-  const { tabs, content, filterOptions } = projectsData;
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch("https://legendary-garden-b29e23ea65.strapiapp.com/api/projects");
+        const data = await response.json();
+        setProjects(data.data || []);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
 
-  const filteredContent = content[activeTab]
+    fetchProjects();
+  }, []);
+
+  const tabs = ["All Projects", "AI/ML", "IoT", "Blockchain", "Web Development"];
+  const filterOptions = {
+    "All Projects": ["All", "AI/ML", "IoT", "Blockchain", "Web Development"],
+    "AI/ML": ["All", "ML", "Deep Learning"],
+    "IoT": ["All", "Smart Devices", "Embedded Systems"],
+    "Blockchain": ["All", "Smart Contracts", "DeFi"],
+    "Web Development": ["All", "Frontend", "Backend", "Full Stack"],
+  };
+
+  const filteredContent = projects
     .filter((project) =>
-      project.title.toLowerCase().includes(searchQuery.toLowerCase())
+      project.Title.toLowerCase().includes(searchQuery.toLowerCase())
     )
-    .filter((project) => (filter === "All" ? true : project.tags.includes(filter)));
+    .filter((project) => (filter === "All" ? true : project.Tags.includes(filter)));
 
   const handleProjectClick = (project) => {
     setExpandedProject(project);
@@ -40,39 +55,30 @@ const ProjectsPage = () => {
       <div className="h-[50vh] bg-[#0093cb] flex flex-col justify-center items-start text-[#f5ffff] px-6 lg:px-20 text-left">
         <motion.h1
           className="text-3xl lg:text-5xl font-bold mb-2"
-          initial="hidden"
-          animate="visible"
-          variants={textAnimation}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
           Projects
         </motion.h1>
         <motion.p
-          className="text-base lg:text-xl text-[#b3e6f9]"
-          initial="hidden"
-          animate="visible"
-          variants={textAnimation}
-          transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
-        >
-          Insights, research, and updates from the professor.
-        </motion.p>
+                className="text-base lg:text-xl text-[#b3e6f9]"
+                initial="hidden"
+                animate="visible"
+                variants={textAnimation}
+                transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
+              >
+                Project Description
+              </motion.p>
       </div>
 
       <div className="px-4 lg:px-16 py-4 lg:py-8">
-                <motion.div
-          className="flex justify-center overflow-x-auto py-4 border-b border-[#0093cb]"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
-          }}
-        >
+        <motion.div className="flex justify-center overflow-x-auto py-4 border-b border-[#0093cb]">
           <div className="flex space-x-6">
             {tabs.map((tab) => (
               <motion.button
                 key={tab}
-                className={`flex-shrink-0 text-base lg:text-lg font-semibold px-4 py-2 ${
+                className={`flex-shrink-0 text-base lg:text-lg font-semibold px-4 py-2 relative ${
                   activeTab === tab
                     ? "text-[#0093cb] border-b-2 border-[#0093cb]"
                     : "text-gray-500"
@@ -90,35 +96,29 @@ const ProjectsPage = () => {
           </div>
         </motion.div>
 
-        <motion.div
-          className="my-4 flex flex-col md:flex-row gap-4"
-          initial="hidden"
-          animate="visible"
-          variants={sectionAnimation}
-        >
-          <motion.input
+        <motion.div className="my-4 flex flex-col md:flex-row gap-4">
+          <input
             type="text"
             placeholder={`Search ${activeTab.toLowerCase()}...`}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full md:w-1/2 p-2 border border-[#0093cb] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0093cb]"
+            className="w-full md:w-1/2 p-2 border border-[#0093cb] rounded-lg"
           />
-          <motion.select
+          <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="w-full md:w-1/2 p-2 border border-[#0093cb] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#0093cb]"
+            className="w-full md:w-1/2 p-2 border border-[#0093cb] rounded-lg"
           >
             {filterOptions[activeTab].map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
             ))}
-          </motion.select>
+          </select>
         </motion.div>
+
         <motion.div className="mt-4">
-          <motion.h2 className="text-2xl font-semibold mb-4">
-            {activeTab}
-          </motion.h2>
+          <motion.h2 className="text-2xl font-semibold mb-4">{activeTab}</motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredContent.map((project) => (
               <motion.div
@@ -127,74 +127,34 @@ const ProjectsPage = () => {
                 onClick={() => handleProjectClick(project)}
               >
                 <img
-                  src={`/images/${project.image}`}
-                  alt={project.title}
+                  src={
+                    project.Image
+                      ? `http://localhost:1337${project.Image.url}`
+                      : "/images/default.jpg"
+                  }
+                  alt={project.Title}
                   className="w-full h-40 object-cover"
                 />
                 <div className="p-4">
-                  <h3 className="text-xl font-semibold">{project.title}</h3>
+                  <h3 className="text-xl font-semibold">{project.Title}</h3>
                 </div>
               </motion.div>
             ))}
           </div>
         </motion.div>
+
         {expandedProject && (
-          <div
-            className="fixed inset-0 bg-[rgba(255,255,255,0.7)] flex items-center justify-center z-50"
-            onClick={closeModal}
-          >
-            <motion.div
-              className="bg-white rounded-lg p-6 max-w-lg w-full relative shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-            >
-              <button
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-                onClick={closeModal}
-              >
-                ✕
-              </button>
-              <h2 className="text-2xl font-bold mb-4">{expandedProject.title}</h2>
-              <img
-                src={`/images/${expandedProject.image}`}
-                alt={expandedProject.title}
-                className="w-full h-40 object-cover mb-4 rounded"
-              />
-              <div className="flex flex-wrap gap-2 mb-4">
-                {expandedProject.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="bg-blue-100 text-blue-800 text-sm px-2 py-1 rounded"
-                  >
-                    {tag}
-                  </span>
-                ))}
+          <div className="fixed inset-0 bg-[rgba(255,255,255,0.7)] flex items-center justify-center z-50" onClick={closeModal}>
+            <motion.div className="bg-white rounded-lg p-6 max-w-lg w-full relative shadow-2xl" onClick={(e) => e.stopPropagation()}>
+              <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800" onClick={closeModal}>✕</button>
+              <h2 className="text-2xl font-bold mb-4">{expandedProject.Title}</h2>
+              <img src={expandedProject.Image ? `http://localhost:1337${expandedProject.Image.url}` : "/images/default.jpg"} alt={expandedProject.Title} className="w-full h-40 object-cover mb-4 rounded" />
+              <p className="text-gray-600 mt-4">{expandedProject.Description[0]?.children[0]?.text}</p>
+              <p className="text-sm text-gray-500 mt-4">Completed: {expandedProject.Date}</p>
+              <div className="flex gap-4 mt-2">
+                <a href={expandedProject.Github} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">GitHub</a>
+                <a href={expandedProject.Demo} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Live Demo</a>
               </div>
-              <div className="flex gap-4">
-                <a
-                  href={expandedProject.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
-                >
-                  GitHub
-                </a>
-                <a
-                  href={expandedProject.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
-                >
-                  Live Demo
-                </a>
-              </div>
-              <p className="text-sm text-gray-500 mt-4">
-                Completed: {expandedProject.date}
-              </p>
-              <p className="text-gray-600 mt-4">{expandedProject.description}</p>
             </motion.div>
           </div>
         )}
