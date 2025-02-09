@@ -38,7 +38,7 @@ cd professor-portfolio
 
 ### **2. Set up the Frontend**
 ```bash
-cd frontend
+cd portfolio
 npm install
 npm run dev
 ```
