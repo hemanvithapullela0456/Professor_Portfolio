@@ -32,7 +32,7 @@ A responsive and modern portfolio website designed for professors to showcase th
 
 ### **1. Clone the Repository**
 ```bash
-git clone https://github.com/hemanvithapullela0456/Professor_Portfolio
+git clone https://github.com/hemanvithapullela0456/Professor_Portfolio.git
 cd professor-portfolio
 ```
 
