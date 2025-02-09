@@ -1,6 +1,3 @@
-Here’s the updated version of your `README.md` with the deployed Strapi backend:
-
-```markdown
 # Professor Portfolio Website  
 
 A responsive and modern portfolio website designed for professors to showcase their academic achievements, publications, research work, and more. Built using **Vite**, **React**, and **Tailwind CSS** for the frontend, with **Strapi** as the backend to manage content through an intuitive admin panel.  
@@ -35,7 +32,7 @@ A responsive and modern portfolio website designed for professors to showcase th
 
 ### **1. Clone the Repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/hemanvithapullela0456/Professor_Portfolio
 cd professor-portfolio
 ```
 
@@ -90,6 +87,3 @@ The build will be available in the `dist` folder.
 ## 📄 License  
 This project is licensed under the MIT License.  
 
----
-
-This version points directly to your deployed backend and removes unnecessary local backend setup instructions. Let me know if you need further tweaks!
