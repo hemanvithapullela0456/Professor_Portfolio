@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion"; 
-import awardsData from "../data/awardsData"; 
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import axios from "axios"; // For API calls
 
 const textAnimation = {
   hidden: { opacity: 0, y: 20 },
@@ -9,6 +9,14 @@ const textAnimation = {
 
 const Achievements = () => {
   const [activeTab, setActiveTab] = useState("Sponsored Projects");
+  const [data, setData] = useState({
+    sponsoredProjects: [],
+    internationalProjects: [],
+    specialIssues: [],
+    awards: [],
+    conferencesOrganized: [],
+  });
+  const [loading, setLoading] = useState(true);
 
   const tabs = [
     "Sponsored Projects",
@@ -18,15 +26,49 @@ const Achievements = () => {
     "Conferences Organized",
   ];
 
+  // Fetch data from the API
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://legendary-garden-b29e23ea65.strapiapp.com/api/achievements"
+        );
+        const rawData = response.data.data;
+
+        // Categorize data into respective tabs
+        const categorizedData = {
+          sponsoredProjects: rawData.filter((item) => item.Category === "Sponsored Projects,"),
+          internationalProjects: rawData.filter((item) => item.Category === "International Projects"),
+          specialIssues: rawData.filter((item) => item.Category === "Special Issues"),
+          awards: rawData.filter((item) => item.Category === "Awards"),
+          conferencesOrganized: rawData.filter((item) => item.Category === "Conferences Organized"),
+        };
+
+        setData(categorizedData);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching achievements:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const renderContent = () => {
+    if (loading) {
+      return <p>Loading...</p>;
+    }
+
     switch (activeTab) {
       case "Sponsored Projects":
         return (
           <ul className="list-disc list-inside space-y-4 text-sm sm:text-base lg:text-lg leading-relaxed">
-            {awardsData.sponsoredProjects.map((project, index) => (
+            {data.sponsoredProjects.map((project, index) => (
               <li key={index}>
-                <strong>{project.title}</strong><br />
-                Role: {project.role}, Funding Agency: {project.fundingAgency}, Amount: {project.amount}, Duration: {project.duration}
+                <strong>{project.title}</strong>
+                <br />
+                Role: {project.Role || "N/A"}, Funding Agency: {project.fundingAgency || "N/A"}, Amount: {project.amount || "N/A"}, Duration: {project.duration || "N/A"}
               </li>
             ))}
           </ul>
@@ -34,10 +76,11 @@ const Achievements = () => {
       case "International Projects":
         return (
           <ul className="list-disc list-inside space-y-4 text-sm sm:text-base lg:text-lg leading-relaxed">
-            {awardsData.internationalProjects.map((project, index) => (
+            {data.internationalProjects.map((project, index) => (
               <li key={index}>
-                <strong>{project.title}</strong><br />
-                Funding Agency: {project.fundingAgency}, Amount: {project.amount}, Duration: {project.duration}
+                <strong>{project.title}</strong>
+                <br />
+                Funding Agency: {project.fundingAgency || "N/A"}, Amount: {project.amount || "N/A"}, Duration: {project.duration || "N/A"}
               </li>
             ))}
           </ul>
@@ -45,10 +88,11 @@ const Achievements = () => {
       case "Special Issues":
         return (
           <ul className="list-disc list-inside space-y-4 text-sm sm:text-base lg:text-lg leading-relaxed">
-            {awardsData.specialIssues.map((issue, index) => (
+            {data.specialIssues.map((issue, index) => (
               <li key={index}>
-                <strong>{issue.title}</strong><br />
-                Journal: {issue.journal}, Editors: {issue.editors}
+                <strong>{issue.title}</strong>
+                <br />
+                Journal: {issue.journal || "N/A"}, Editors: {issue.editors || "N/A"}
               </li>
             ))}
           </ul>
@@ -56,10 +100,11 @@ const Achievements = () => {
       case "Awards":
         return (
           <ul className="list-disc list-inside space-y-4 text-sm sm:text-base lg:text-lg leading-relaxed">
-            {awardsData.awards.map((award, index) => (
+            {data.awards.map((award, index) => (
               <li key={index}>
-                <strong>{award.title}</strong><br />
-                Conference/Organization: {award.conference || award.organization}, Year: {award.year}
+                <strong>{award.title}</strong>
+                <br />
+                Conference/Organization: {award.organization || "N/A"}, Year: {award.year || "N/A"}
               </li>
             ))}
           </ul>
@@ -67,10 +112,11 @@ const Achievements = () => {
       case "Conferences Organized":
         return (
           <ul className="list-disc list-inside space-y-4 text-sm sm:text-base lg:text-lg leading-relaxed">
-            {awardsData.conferencesOrganized.map((event, index) => (
+            {data.conferencesOrganized.map((event, index) => (
               <li key={index}>
-                <strong>{event.title}</strong><br />
-                Location: {event.location}, Date: {event.date}
+                <strong>{event.title}</strong>
+                <br />
+                Location: {event.location || "N/A"}, Date: {event.date || "N/A"}
               </li>
             ))}
           </ul>

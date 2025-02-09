@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes, FaEnvelope } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1300); 
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1300);
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50); 
+      setScrolled(window.scrollY > 50);
     };
 
-  
     window.addEventListener("scroll", handleScroll);
 
-   
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1300); 
+      setIsMobile(window.innerWidth <= 1300);
     };
 
     window.addEventListener("resize", handleResize);
@@ -55,13 +53,14 @@ const Navbar = () => {
       }}
     >
       <div className="container mx-auto px-6 py-5 flex justify-between items-center">
-
+        {/* Left Logo */}
         <Link to="/" className="text-2xl font-bold">
           Professor XYZ, PHD
         </Link>
 
+        {/* Center Links */}
         {!isMobile && (
-          <ul className="flex space-x-8 text-lg">
+          <ul className="flex space-x-8 ml-[300px] text-lg">
             {navLinks.map((item, index) => (
               <li key={index} className="relative group">
                 <Link to={item.path} className="relative px-2 transition duration-200">
@@ -77,6 +76,21 @@ const Navbar = () => {
             ))}
           </ul>
         )}
+
+        {/* Right Contact Icon */}
+        {!isMobile && (
+          <Link
+            to="/contact"
+            className="text-2xl flex items-center justify-center"
+            style={{
+              height: "100%", // Ensures it aligns with the navbar height
+            }}
+          >
+            <FaEnvelope />
+          </Link>
+        )}
+
+        {/* Mobile Menu */}
         {isMobile && (
           <button
             className="text-3xl focus:outline-none"
@@ -86,6 +100,7 @@ const Navbar = () => {
           </button>
         )}
       </div>
+
       {isMobile && (
         <motion.div
           initial={{ x: "-100%" }}
@@ -113,6 +128,15 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                to="/contact"
+                className="relative transition duration-200 inline-block"
+                onClick={() => setMenuOpen(false)}
+              >
+                Contact
+              </Link>
+            </li>
           </ul>
         </motion.div>
       )}

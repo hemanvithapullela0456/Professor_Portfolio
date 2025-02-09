@@ -16,7 +16,7 @@ const ProjectsPage = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch("https://legendary-garden-b29e23ea65.strapiapp.com/api/projects");
+        const response = await fetch("https://legendary-garden-b29e23ea65.strapiapp.com/api/projects?populate=Image");
         const data = await response.json();
         setProjects(data.data || []);
       } catch (error) {
@@ -127,14 +127,11 @@ const ProjectsPage = () => {
                 onClick={() => handleProjectClick(project)}
               >
                 <img
-                  src={
-                    project.Image
-                      ? `http://localhost:1337${project.Image.url}`
-                      : "/images/default.jpg"
-                  }
-                  alt={project.Title}
-                  className="w-full h-40 object-cover"
-                />
+  src={project.Image?.formats?.medium?.url || project.Image?.url || "/images/default.jpg"}
+  alt={project.Title}
+  className="w-full h-40 object-cover"
+/>
+
                 <div className="p-4">
                   <h3 className="text-xl font-semibold">{project.Title}</h3>
                 </div>
@@ -148,7 +145,12 @@ const ProjectsPage = () => {
             <motion.div className="bg-white rounded-lg p-6 max-w-lg w-full relative shadow-2xl" onClick={(e) => e.stopPropagation()}>
               <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-800" onClick={closeModal}>✕</button>
               <h2 className="text-2xl font-bold mb-4">{expandedProject.Title}</h2>
-              <img src={expandedProject.Image ? `http://localhost:1337${expandedProject.Image.url}` : "/images/default.jpg"} alt={expandedProject.Title} className="w-full h-40 object-cover mb-4 rounded" />
+              <img
+  src={expandedProject.Image?.formats?.medium?.url || expandedProject.Image?.url || "/images/default.jpg"}
+  alt={expandedProject.Title}
+  className="w-full h-40 object-cover mb-4 rounded"
+/>
+
               <p className="text-gray-600 mt-4">{expandedProject.Description[0]?.children[0]?.text}</p>
               <p className="text-sm text-gray-500 mt-4">Completed: {expandedProject.Date}</p>
               <div className="flex gap-4 mt-2">

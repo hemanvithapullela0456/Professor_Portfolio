@@ -10,7 +10,7 @@ const About = () => {
   };
 
   useEffect(() => {
-    fetch("https://legendary-garden-b29e23ea65.strapiapp.com/api/abouts")
+    fetch("https://legendary-garden-b29e23ea65.strapiapp.com/api/abouts?populate=Video")
       .then((res) => res.json())
       .then((data) => {
         console.log("Fetched Data:", data);
@@ -59,7 +59,7 @@ const About = () => {
                 </div>
 
                 {/* Video */}
-                {item.Video ? (
+                {item.Video?.url ? (
                   <motion.div
                     className="w-full lg:w-1/2"
                     initial="hidden"
@@ -71,7 +71,7 @@ const About = () => {
                       controls
                       className="w-full h-auto rounded-lg shadow-lg"
                     >
-                      <source src={item.Video} type="video/mp4" />
+                      <source src={item.Video.url} type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
                   </motion.div>

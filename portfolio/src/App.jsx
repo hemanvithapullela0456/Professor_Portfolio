@@ -8,6 +8,7 @@ import Research from "./pages/Research";
 import Conferences from "./pages/Conferences";
 import Achievements from "./pages/Achievements";
 import Blog from "./pages/Blog";
+import Contact from "./pages/Contact"; // Import the Contact page
 import Footer from "./components/Footer";
 
 const App = () => {
@@ -22,8 +23,9 @@ const App = () => {
         <Route path="/conferences" element={<Conferences />} />
         <Route path="/achievements" element={<Achievements />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/contact" element={<Contact />} /> {/* Add the Contact route */}
       </Routes>
-      <Footer/>
+      <Footer />
     </Router>
   );
 };
