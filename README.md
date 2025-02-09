@@ -33,7 +33,7 @@ A responsive and modern portfolio website designed for professors to showcase th
 ### **1. Clone the Repository**
 ```bash
 git clone https://github.com/hemanvithapullela0456/Professor_Portfolio.git
-cd professor-portfolio
+cd Professor-Portfolio
 ```
 
 ### **2. Set up the Frontend**
@@ -48,6 +48,9 @@ The frontend will be available at `http://localhost:5173`.
 
 ### **3. Backend Information**
 The backend is deployed at **[Strapi Admin Panel](https://legendary-garden-b29e23ea65.strapiapp.com/admin)**.  
+![WhatsApp Image 2025-02-09 at 23 59 43_60ca59fa](https://github.com/user-attachments/assets/8aed9dd9-f8fd-4751-92a4-4d2e328526f6)
+![image](https://github.com/user-attachments/assets/3ae01038-4741-466f-bf44-adcf597b11b5)
+
 No local backend setup is required as the backend is hosted in the cloud.  
 
 ### **4. Configure Backend API in Frontend**
@@ -62,7 +65,7 @@ const API_URL = "https://legendary-garden-b29e23ea65.strapiapp.com";
 
 ### **Frontend**
 ```bash
-cd frontend
+cd portfolio
 npm run build
 ```
 The build will be available in the `dist` folder.  
