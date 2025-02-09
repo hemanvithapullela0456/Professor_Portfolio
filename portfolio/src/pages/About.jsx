@@ -1,10 +1,88 @@
 import React from "react";
+import { motion } from "framer-motion"; 
+
+
+const textAnimation = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const About = () => {
   return (
-    <div className="mt-20 text-center p-10">
-      <h2 className="text-3xl font-bold text-[#0093cb]">About the Professor</h2>
-      <p className="mt-4 text-lg text-gray-700">Welcome to my portfolio! Here you can learn about my academic journey and expertise.</p>
+    <div className="bg-[#f5ffff] text-[#1B2C48] min-h-screen">
+
+      <div className="h-[50vh] bg-[#0093cb] flex flex-col justify-center items-start text-[#f5ffff] px-6 lg:px-20 text-left">
+        <motion.h1
+          className="text-3xl lg:text-5xl font-bold mb-2"
+          initial="hidden"
+          animate="visible"
+          variants={textAnimation}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          About Me
+        </motion.h1>
+        <motion.p
+          className="text-base lg:text-xl text-[#b3e6f9]"
+          initial="hidden"
+          animate="visible"
+          variants={textAnimation}
+          transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
+        >
+          Leading, creating, communicating, and advocating to make science a tool for progress.
+        </motion.p>
+      </div>
+      <div className="px-6 lg:px-20 py-8 lg:py-16">
+        <motion.p
+          className="text-base lg:text-lg leading-relaxed mb-6"
+          initial="hidden"
+          animate="visible"
+          variants={textAnimation}
+          transition={{ delay: 0.4, duration: 0.5, ease: "easeOut" }}
+        >
+          Meredith Schmehl is a neuroscientist, science communicator, and science policy advocate driven to connect science and society through storytelling and community engagement.
+        </motion.p>
+
+        <motion.ul
+          className="list-disc list-inside space-y-3 text-base lg:text-lg leading-relaxed mb-6"
+          initial="hidden"
+          animate="visible"
+          variants={textAnimation}
+          transition={{ delay: 0.6, duration: 0.5, ease: "easeOut" }}
+        >
+          <li>
+            As the Public Relations Manager at the National Science Policy Network (NSPN), she created accessible written and visual content to share NSPN's story with the media and the public.
+          </li>
+          <li>
+            Engaged early-career scientists in professional development opportunities related to science policy and science communication.
+          </li>
+          <li>
+            Led advocacy projects as an Early Career Policy Ambassador with the Society for Neuroscience.
+          </li>
+          <li>
+            Written about science policy and related topics through Duke University initiatives.
+          </li>
+        </motion.ul>
+
+        <motion.p
+          className="text-base lg:text-lg leading-relaxed mb-6"
+          initial="hidden"
+          animate="visible"
+          variants={textAnimation}
+          transition={{ delay: 0.8, duration: 0.5, ease: "easeOut" }}
+        >
+          Meredith also works as an independent science communicator, public speaker, and advocate through multimedia and outreach projects. Her work empowers communities to understand, value, and engage with scientific research.
+        </motion.p>
+
+        <motion.p
+          className="text-base lg:text-lg leading-relaxed"
+          initial="hidden"
+          animate="visible"
+          variants={textAnimation}
+          transition={{ delay: 1, duration: 0.5, ease: "easeOut" }}
+        >
+          Meredith holds a PhD in Neurobiology from Duke University, where she studied how the brain uses vision to process sound. She continues to bridge the gap between scientific research and public engagement through impactful communication.
+        </motion.p>
+      </div>
     </div>
   );
 };

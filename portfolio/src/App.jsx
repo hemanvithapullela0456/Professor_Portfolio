@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Projects from "./pages/Projects";
+import Projects from "./pages/ProjectsPage";
 import Research from "./pages/Research";
 import Conferences from "./pages/Conferences";
 import Achievements from "./pages/Achievements";
 import Blog from "./pages/Blog";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/achievements" element={<Achievements />} />
         <Route path="/blog" element={<Blog />} />
       </Routes>
+      <Footer/>
     </Router>
   );
 };
