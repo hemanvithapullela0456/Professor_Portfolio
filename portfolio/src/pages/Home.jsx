@@ -2,9 +2,20 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import AnimatedProfileSection from "./AnimatedProfileSection";
 
-const dropAnimation = {
+// Animation variants for Framer Motion
+const textAnimation = {
   hidden: { y: -100, opacity: 0 },
   visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: "easeOut" } },
+};
+
+const backgroundImageAnimation = {
+  hidden: { y: -100, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { duration: 1, ease: "easeOut" } },
+};
+
+const fadeInAnimation = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.8, ease: "easeOut" } },
 };
 
 const Home = () => {
@@ -12,7 +23,7 @@ const Home = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollThreshold = window.innerHeight * 0.9; 
+      const scrollThreshold = window.innerHeight * 0.9;
       if (window.scrollY >= scrollThreshold) {
         setTriggerAnimation(true);
       }
@@ -24,32 +35,51 @@ const Home = () => {
 
   return (
     <div className="relative h-[200vh] w-full">
-      <motion.header
-        variants={dropAnimation}
+      {/* Background Image Section with Opacity */}
+      <motion.div
+        className="h-screen w-full bg-cover bg-center relative"
+        style={{ backgroundImage: "url('/images/home.png')" }}
         initial="hidden"
         animate="visible"
-        className="h-screen w-full bg-cover bg-center bg-no-repeat relative"
-        style={{ backgroundImage: "url('/images/imageq.png')" }}
+        variants={backgroundImageAnimation}
       >
-        <div className="absolute inset-0 bg-[#f5ffff] bg-opacity-80"></div>
+        {/* Overlay for background opacity */}
+        <div className="absolute inset-0 bg-white opacity-30 z-0"></div>
+
         <div className="h-full flex items-center justify-center relative z-10">
           <motion.div
             className="text-center"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
+            initial="hidden"
+            animate="visible"
+            variants={textAnimation}
           >
-            <h1 className="text-5xl font-bold text-[#0093cb] drop-shadow-lg">
+            <motion.h1
+              className="text-5xl font-bold text-[#0093cb] drop-shadow-lg"
+              variants={textAnimation}
+            >
               Welcome to My Portfolio
-            </h1>
-            <p className="text-lg mt-4 text-[#0093cb] drop-shadow-md">
+            </motion.h1>
+            <motion.p
+              className="text-lg mt-4 text-[#0093cb] drop-shadow-md"
+              variants={textAnimation}
+            >
               Showcasing Research, Projects, and Achievements
-            </p>
+            </motion.p>
           </motion.div>
         </div>
-      </motion.header>
+      </motion.div>
+
+      {/* Animated Section */}
       <div className="h-screen bg-white flex items-center justify-center">
-        {triggerAnimation && <AnimatedProfileSection />}
+        {triggerAnimation && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeInAnimation}
+          >
+            <AnimatedProfileSection />
+          </motion.div>
+        )}
       </div>
     </div>
   );
